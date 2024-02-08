@@ -4,20 +4,31 @@
   "description": "paid org\r ## Installations\r 1. Visual studio\r 2. mysql\r 3. mysql work bench\r 4. postman",
   "main": "database.js",
   "type": "module",
+  "testEnvironment": "node",
+  
   "scripts": {
     "start": "nodemon server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --detectOpenHandles"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "base-64": "^1.0.0",
     "bcrypt": "^5.1.1",
+    "chai": "^5.0.3",
+    "chai-http": "^4.4.0",
     "dotenv": "^16.4.1",
     "express": "^4.18.2",
     "mysql2": "^3.9.1",
     "nodemon": "^3.0.3",
     "sequelize": "^6.36.0",
     "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "babel-jest": "^27.4.5",
+    "@babel/preset-env": "^7.17.0",
+    "jest": "^29.7.0",
+    "mocha": "^10.2.0",
+    "sinon": "^17.0.1"
   }
 }
