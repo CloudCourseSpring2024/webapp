@@ -1,7 +1,7 @@
 # webapp
 paid org
 ## Installations
-1. Visual studio
+1. Visual studio code
 2. mysql
 3. mysql work bench
 4. postman
