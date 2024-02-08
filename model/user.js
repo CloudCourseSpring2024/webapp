@@ -2,6 +2,7 @@ import { Sequelize } from "sequelize";
 import bcrypt from 'bcrypt';
 /*.*/
 /* adding another com*/
+/* adding another com*/
 export const userModel = (sequelize) => {
     const { DataTypes } = Sequelize;
 
