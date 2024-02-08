@@ -14,8 +14,6 @@ export const implementHealthCheck = (app) => {
             res.status(503).end();
         }
     });
-<<<<<<< HEAD
+
 };
-=======
-};
->>>>>>> 0bfe365 (my 1st commit)
+
