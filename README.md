@@ -16,9 +16,13 @@ paid org
 7. npm install base-64
 8. npm i uuid
 9. npm i dotenv
+<<<<<<< HEAD
 10. npm install --save-dev jest sinon
 11. npm install --save-dev jest
 12. npm start
+=======
+10. npm start
+>>>>>>> 0bfe365 (my 1st commit)
    
 ## Set up Database
 1. Ensure your MySQL server is running.
