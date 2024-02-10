@@ -27,6 +27,7 @@ jobs:
           echo "DB_DIALECT=mysql" >> .env
           echo "DB_HOST=127.0.0.1" >> .env
           echo "DB_USERNAME=root" >> .env
+          echo "MYSQL_ROOT_PASSWORD=sweety" >> .env
           echo "DB_PASSWORD=sweety" >> .env
           echo "DB_NAME=cloudcourse" >> .env
           echo "DB_PORT=3306" >> .env
@@ -37,4 +38,4 @@ jobs:
           sudo apt-get install -y curl
           sudo systemctl start mysql
           sudo systemctl status mysql
-          mysql -u root -p sweety -e "CREATE DATABASE cloudcourse;"
+          mysql -u root -p "sweety" -e "CREATE DATABASE cloudcourse;"
