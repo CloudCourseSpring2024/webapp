@@ -21,7 +21,7 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-             exit1
+        run: exit 1
 
       - name: Display .env file
         run: |
