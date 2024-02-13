@@ -44,36 +44,9 @@ export const userModel = (sequelize) => {
             defaultValue: Sequelize.NOW,
             readOnly: true
         },
-        token: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        }
     }, {
-        hooks: {
-            beforeCreate: async (user, options) => {
-                // Hash the password before saving
-                const hashedPassword = await bcrypt.hash(user.password, 10);
-                user.password = hashedPassword;
-            },
-            beforeUpdate: async (user, options) => {
-                // Only update specified fields
-                const allowedFields = ['firstName', 'lastName', 'password'];
-                for (const field in user._changed) {
-                    if (!allowedFields.includes(field)) {
-                        throw new Error('Attempting to update invalid field.');
-                    }
-                }
-                // Update account_updated field
-                user.accountUpdated = new Date();
-                // Hash the password if it has changed
-                if (user.changed('password')) {
-                    const hashedPassword = await bcrypt.hash(user.password, 10);
-                    user.password = hashedPassword;
-                }
-            },
-        },
         defaultScope: {
-            attributes: { exclude: ['password'] },
+            attributes: {  }, //exclude: ['password']
         },
     });
 
