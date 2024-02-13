@@ -36,4 +36,3 @@ jobs:
           sudo apt-get install -y curl
           sudo systemctl start mysql
           sudo systemctl status mysql
-          mysql -u root -psweety -e "CREATE DATABASE cloudcourse;"
