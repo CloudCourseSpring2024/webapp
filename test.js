@@ -15,6 +15,7 @@ before((done) => {
 
     // Wait for the server to start
     serverProcess.stdout.on('data', (data) => {
+        console.log(data);
         if (data.includes('Server is running')) {
             console.log('Server started');
             setTimeout(() => {
@@ -121,12 +122,7 @@ describe('User APIs', () => {
 
 // Stop the server after running the tests
 after((done) => {
-    serverProcess.kill('SIGINT'); // Send SIGINT signal to gracefully stop the server
-    console.log('Server stopping...');
-    
-    // Wait for the server to stop
-    serverProcess.on('exit', (code, signal) => {
-        console.log(`Server stopped with code ${code} and signal ${signal}`);
-        done();
-    });
+    serverProcess.kill();
+    console.log('Server stopped');
+    done();
 });
