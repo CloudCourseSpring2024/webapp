@@ -15,6 +15,7 @@ before((done) => {
 
     // Wait for the server to start
     serverProcess.stdout.on('data', (data) => {
+        console.log(data);
         if (data.includes('Server is running')) {
             console.log('Server started');
             setTimeout(() => {
