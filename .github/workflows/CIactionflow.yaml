@@ -22,17 +22,25 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Display .env file
+      - name: Install MySQL server
         run: |
-          echo "DB_DIALECT=mysql" >> .env
-          echo "DB_HOST=127.0.0.1" >> .env
-          echo "DB_USERNAME=root" >> .env
-          echo "DB_PASSWORD=sweety" >> .env
-          echo "DB_NAME=cloudcourse" >> .env
+         sudo apt-get update
+         sudo apt-get install -y mysql-server
+         sudo systemctl start mysql
+         sudo systemctl status mysql
+         sudo mysql --user=root --password=root -e "CREATE DATABASE IF NOT EXISTS cloudcourse;"
+         sudo mysql --user=root --password=root -e "SHOW DATABASES;"
+         sudo mysql --user=root --password=root -e "USE cloudcourse; 
 
-      - name: Configure MySQL
+      - name: Set up environment variables
         run: |
-          sudo apt-get update
-          sudo apt-get install -y curl
-          sudo systemctl start mysql
-          sudo systemctl status mysql
+          echo "DB_DIALECT=mysql" >> $GITHUB_ENV
+          echo "DB_HOST=localhost" >> $GITHUB_ENV
+          echo "DB_USERNAME=root" >> $GITHUB_ENV
+          echo "DB_PASSWORD=sweety" >> $GITHUB_ENV
+          echo "DB_NAME=cloudcourse" >> $GITHUB_ENV
+
+      - name: Run tests
+        run: npm test
+
+      
