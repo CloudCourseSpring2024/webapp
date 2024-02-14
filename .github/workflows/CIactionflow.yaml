@@ -30,7 +30,7 @@ jobs:
          sudo systemctl status mysql
          sudo mysql --user=root --password=root -e "CREATE DATABASE IF NOT EXISTS cloudcourse;"
          sudo mysql --user=root --password=root -e "SHOW DATABASES;"
-         sudo mysql --user=root --password=root -e "USE cloudcourse; 
+         sudo mysql --user=root --password=root -e "USE cloudcourse;" 
 
       - name: Set up environment variables
         run: |
