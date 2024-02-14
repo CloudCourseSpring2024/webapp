@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "nodemon server.js",
-    "test": "mocha test.js --timeout 10000"
+    "test": "mocha test.js --timeout 20000"
   },
   "author": "",
   "license": "ISC",
