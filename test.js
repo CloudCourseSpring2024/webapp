@@ -41,7 +41,6 @@ async function makeGetRequest(url, username, password) {
 
     // Create basic auth header
     const authHeader = 'Basic ' + Buffer.from(username + ':' + password).toString('base64');
-
     try {
         return await axios.get(url, {
             headers: {
