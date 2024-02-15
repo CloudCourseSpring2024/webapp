@@ -2,21 +2,6 @@ import axios from 'axios';
 import { exec } from 'child_process';
 axios.defaults.timeout = 5000;
 
-// the server before running the tests
-
-
-    // Wait for the server to start
-    serverProcess.stdout.on('data', (data) => {
-        console.log(data);
-        if (data.includes('Server is running')) {
-            console.log('Server started');
-            setTimeout(() => {
-                done();
-            }, 5000);
-        }
-    });
-});
-
 async function makePostRequest(url, data) {
     try {
         const response = await axios.post(url, data);
