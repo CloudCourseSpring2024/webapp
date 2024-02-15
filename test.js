@@ -6,7 +6,7 @@ axios.defaults.timeout = 5000;
 let serverProcess;
 
 before((done) => {
-    serverProcess = exec('node server.js');
+    serverProcess = exec('nodemon server.js');
     // Handle server startup errors
     serverProcess.on('error', (err) => {
         console.error('Error starting server:', err);
