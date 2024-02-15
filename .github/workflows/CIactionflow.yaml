@@ -46,10 +46,10 @@ jobs:
           echo "DB_DIALECT=mysql" >> $GITHUB_ENV
           echo "DB_HOST=localhost" >> $GITHUB_ENV
           echo "DB_USERNAME=root" >> $GITHUB_ENV
-          echo "DB_PASSWORD=sweety" >> $GITHUB_ENV
+          echo "DB_PASSWORD=root" >> $GITHUB_ENV
           echo "DB_NAME=cloudcourse" >> $GITHUB_ENV
-      - name: Run server
-        run: npm start
+      - name: Start server in background
+        run: npm start &
       - name: Run tests
         run: npm test
 

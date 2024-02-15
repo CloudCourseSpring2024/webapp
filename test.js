@@ -3,15 +3,7 @@ import { exec } from 'child_process';
 axios.defaults.timeout = 5000;
 
 // the server before running the tests
-let serverProcess;
 
-before((done) => {
-    serverProcess = exec('nodemon server.js');
-    // Handle server startup errors
-    serverProcess.on('error', (err) => {
-        console.error('Error starting server:', err);
-        done(err);
-    });
 
     // Wait for the server to start
     serverProcess.stdout.on('data', (data) => {
@@ -119,9 +111,3 @@ describe('User APIs', () => {
     });
 });
 
-// Stop the server after running the tests
-after((done) => {
-    serverProcess.kill();
-    console.log('Server stopped');
-    done();
-});
