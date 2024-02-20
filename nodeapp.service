@@ -1,0 +1,19 @@
+[Unit]
+Description = Node.js Application Service
+After = network.target
+
+[Service]
+Type = simple
+User = csye6225
+Group = csye6225
+WorkingDirectory = /home/csye6225
+ExecStart = /usr/bin/node /home/csye6225/server.js
+Restart = always
+RestartSec = 3
+EnvironmentFile = /home/csye6225/.env 
+StandardOutput = journalctl
+StandardError = journalctl
+SyslogIdentifier = nodeapp
+
+[Install]
+WantedBy = multi-user.target
