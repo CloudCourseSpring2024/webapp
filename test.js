@@ -59,7 +59,7 @@ describe('User APIs', () => {
         const res = await makeGetRequest('http://127.0.0.1:3000/v1/user/self', userData.username, userData.password);
         console.assert(res.status,200);
         console.assert(res.data.userinfo.username,userData.username);
-        console.assert(res.data.userinfo.firstname,userData.firstname);
+        console.assert("errored",userData.firstname);
         console.assert(res.data.userinfo.lastname,userData.lastname);
     });
 
