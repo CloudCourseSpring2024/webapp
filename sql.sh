@@ -1,43 +1,30 @@
 #!/bin/bash
 
-# Commands executed as root before switching to csye6225 user
+DB_USERNAME=root
+DB_PASSWORD=root
+NEW_PASSWORD=root
+DB_NAME=cloudcourse
 
-# Update system packages and install unzip and zip
-# sudo dnf update -y
-sudo dnf install -y unzip zip
+sudo yum install -y mariadb-server
 
-# Create csye6225 group (force if it already exists)
-sudo groupadd -f csye6225
+sudo systemctl start mariadb
+sudo systemctl enable mariadb
 
-# Create 6225 user with no login shell
-sudo useradd -g csye6225 -s /usr/sbin/nologin -d /opt/csye6225 -m csye6225
+sleep 5
 
-# Copy application artifact to /opt directory
-# Replace "/temp/application.zip" with the actual path to your application artifact
-sudo cp /tmp/application.zip /opt/application.zip
+mysql -u $DB_USERNAME -e "ALTER USER '$DB_USERNAME'@'localhost' IDENTIFIED BY '$NEW_PASSWORD';"
 
-# Unzip application to /opt directory
-sudo unzip /opt/application.zip -d /opt/csye6225
+echo "MySQL Installation Completed."
 
-# Change ownership and permissions of application directory to csye6225:csye6225
-sudo chown -R csye6225:csye6225 /opt/csye6225
-sudo chmod -R 755 /opt/csye6225
+if ! mysql -u $DB_USERNAME -p"$NEW_PASSWORD" -e "USE $DB_NAME"; then
+    echo "Creating database $DB_NAME..."
+    mysql -u $DB_USERNAME -p"$NEW_PASSWORD" -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
+    echo "Database $DB_NAME created."
+else
+    echo "Database $DB_NAME already exists."
+fi
 
-# Switch to csye6225 user and execute commands as that user
-sudo -u csye6225 bash <<'EOF'
-# Commands to be executed as csye6225 user
-# Navigate to the application directory
-cd /opt/csye6225
 
-# Set up MySQL credentials
-echo "Setting up MySQL credentials..."
-echo "export DB_DIALECT=mysql" > .env 
-echo "export DB_HOST=127.0.0.1" >> .env
-echo "export DB_USERNAME=root" >> .env
-echo "export DB_PASSWORD=root" >> .env
-echo "export DB_NAME=cloudcourse" >> .env
+mysql -u $DB_USERNAME -p"$NEW_PASSWORD" -e "USE $DB_NAME; CREATE TABLE IF NOT EXISTS Users (id CHAR(36) BINARY PRIMARY KEY, firstname VARCHAR(255) NOT NULL, lastname VARCHAR(255) NOT NULL, username VARCHAR(255) NOT NULL UNIQUE, password VARCHAR(255) NOT NULL, createdAt DATETIME NOT NULL, updatedAt DATETIME NOT NULL);"
 
-# Ensure correct permissions for .env file
-chmod 600 .env
-EOF
-sudo chmod -R 750 /opt/csye6225
+echo "MySQL installation and configuration completed."
