@@ -1,7 +1,7 @@
 name: Integration Tests and Artifact Build
 
 on:
-  push:
+  pull_request:
     branches:
       - main
 
@@ -32,9 +32,9 @@ jobs:
                                                 USE cloudcourse; \
                                                 CREATE TABLE IF NOT EXISTS Users (
                                                   id CHAR(36) BINARY PRIMARY KEY,
-                                                  firstName VARCHAR(255) NOT NULL,
-                                                  lastName VARCHAR(255) NOT NULL,
-                                                  userName VARCHAR(255) NOT NULL UNIQUE,
+                                                  firstname VARCHAR(255) NOT NULL,
+                                                  lastname VARCHAR(255) NOT NULL,
+                                                  username VARCHAR(255) NOT NULL UNIQUE,
                                                   password VARCHAR(255) NOT NULL,
                                                   createdAt DATETIME NOT NULL,
                                                   updatedAt DATETIME NOT NULL
@@ -96,4 +96,13 @@ jobs:
 
       - name: Build Google Cloud image with Packer
         run: packer build packer.pkr.hcl
-        
+
+      - name: Validate Packer Template
+        run: packer validate webapp-application.pkr.hcl
+
+      - name: Format Packer Template
+        run: |
+          if ! packer fmt -check -diff webapp-application.pkr.hcl; then
+            echo "Packer template is not properly formatted. Please run 'packer fmt' to format the template."
+            exit 1
+          fi
