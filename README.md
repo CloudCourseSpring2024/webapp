@@ -2,9 +2,9 @@
 paid org.
 ## Installations
 1. Visual studio
-2. mysql.
-3. mysql work bench.
-4. postman.
+2. mysql
+3. mysql work bench
+4. postman
    
 ## Install Dependencies
 1. npm init
