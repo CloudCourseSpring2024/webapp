@@ -25,7 +25,7 @@ mysql -u $DB_USERNAME  -e "ALTER USER '$DB_USERNAME'@'localhost' IDENTIFIED BY '
 
 echo "MySQL Installation Completed."
 
-# # Create database if it doesn't exist
+# Create database if it doesn't exist
 # if ! mysql -u $DB_USERNAME -p$NEW_PASSWORD -e "USE $DB_NAME"; then
 #     echo "Creating database $DB_NAME..."
 #     mysql -u $DB_USERNAME -p$NEW_PASSWORD -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
@@ -34,4 +34,4 @@ echo "MySQL Installation Completed."
 #     echo "Database $DB_NAME already exists."
 # fi
 
-# echo "MySQL installation and configuration completed."
+#echo "MySQL installation and configuration completed."

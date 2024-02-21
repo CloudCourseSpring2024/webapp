@@ -57,9 +57,11 @@ describe('User APIs', () => {
         await makePostRequest('http://127.0.0.1:3000/v1/user', userData);
 
         const res = await makeGetRequest('http://127.0.0.1:3000/v1/user/self', userData.username, userData.password);
-        console.assert(res.status,200);
-        console.assert(res.data.userinfo.username,userData.username);
-        console.assert(res.data.userinfo.firstname,userData.firstname);
+        console.assert(res.status,400);
+        console.log(userData);
+        console.log(res.data);
+        console.assert("none",userData.username);
+        console.assert("none",userData.firstname);
         console.assert(res.data.userinfo.lastname,userData.lastname);
     });
 

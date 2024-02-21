@@ -10,30 +10,34 @@ sudo dnf install -y unzip zip
 sudo groupadd -f csye6225
 
 # Create 6225 user with no login shell
-sudo useradd -g csye6225 -s /usr/sbin/nologin -d /home/csye6225 csye6225
+sudo useradd -g csye6225 -s /usr/sbin/nologin -d /opt/csye6225 -m csye6225
 
-# Copy application artifact to /home directory
+# Copy application artifact to /opt directory
 # Replace "/temp/application.zip" with the actual path to your application artifact
-sudo cp /tmp/application.zip /home/application.zip
+sudo cp /tmp/application.zip /opt/application.zip
 
-# Unzip application to /home directory
-sudo unzip /home/application.zip -d /home/csye6225
+# Unzip application to /opt directory
+sudo unzip /opt/application.zip -d /opt/csye6225
 
 # Change ownership and permissions of application directory to csye6225:csye6225
-sudo chown -R csye6225:csye6225 /home/csye6225
-sudo chmod -R 750 /home/csye6225
+sudo chown -R csye6225:csye6225 /opt/csye6225
+sudo chmod -R 755 /opt/csye6225
 
 # Switch to csye6225 user and execute commands as that user
 sudo -u csye6225 bash <<'EOF'
 # Commands to be executed as csye6225 user
 # Navigate to the application directory
-cd /home/csye6225
+cd /opt/csye6225
 
 # Set up MySQL credentials
 echo "Setting up MySQL credentials..."
 echo "export DB_DIALECT=mysql" > .env 
-echo "export DB_HOST=127.0.0.1" > .env
-echo "export DB_USERNAME=root" > .env
-echo "export DB_PASSWORD=root" > .env
-echo "export DB_NAME=health_check_db" > .env
+echo "export DB_HOST=127.0.0.1" >> .env
+echo "export DB_USERNAME=root" >> .env
+echo "export DB_PASSWORD=root" >> .env
+echo "export DB_NAME=cloudcourse" >> .env
+
+# Ensure correct permissions for .env file
+chmod 600 .env
 EOF
+sudo chmod -R 750 /opt/csye6225
