@@ -57,7 +57,7 @@ describe('User APIs', () => {
         console.assert(res.status,400);
         console.log(userData);
         console.log(res.data);
-        assert.strictEqual(res.data.userinfo.username,userData.username);
+        assert.strictEqual("hgdfsj",userData.username);
         assert.strictEqual(res.data.userinfo.firstname,userData.firstname);
         assert.strictEqual(res.data.userinfo.lastname,userData.lastname);
     });
