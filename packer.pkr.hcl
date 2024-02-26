@@ -10,7 +10,7 @@ packer {
 source "googlecompute" "centos" {
   project_id         = "electric-clone-412119"  
   source_image_family = "centos-stream-8"
-  zone               = "us-central1-a"
+  zone               = "us-central1-a
   ssh_username       = "centos"
   image_name         = "custom-image-{{timestamp}}"
 }
