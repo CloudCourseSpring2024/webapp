@@ -8,7 +8,7 @@ packer {
 }
 
 source "googlecompute" "centos" {
-  project_id         = "electric-clone-412119"  
+  project_id         = "electric-clone-412119"  # Enclose the project_id value in double quotes
   source_image_family = "centos-stream-8"
   zone               = "us-central1-a"
   ssh_username       = "centos"
@@ -24,10 +24,6 @@ build {
   }
 
   provisioner "file" {
-    source      = "sql.sh"
-    destination = "/tmp/sql.sh"
-  }
-  provisioner "file" {
     source      = "nodeinstallement.sh"
     destination = "/tmp/nodeinstallement.sh"
   }
@@ -40,10 +36,6 @@ build {
   provisioner "file" {
     source      = "nodeindex.sh"
     destination = "/tmp/nodeindex.sh"
-  }
-
-  provisioner "shell" {
-    script = "sql.sh"
   }
 
   provisioner "shell" {
