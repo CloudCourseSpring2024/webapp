@@ -29,6 +29,4 @@ sudo -u csye6225 bash <<'EOF'
 # Navigate to the application directory
 cd /opt/csye6225
 touch .env
-npm install
-exit
 EOF

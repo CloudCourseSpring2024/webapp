@@ -12,10 +12,12 @@ async function makePostRequest(url, data) {
         return response;
     } catch (error) {
         console.error('Error:', error.message);
-        throw error; 
+        throw error; // Rethrow the error for handling at a higher level
     }
 }
 async function makeGetRequest(url, username, password) {
+
+    // Create basic auth header
     const authHeader = 'Basic ' + Buffer.from(username + ':' + password).toString('base64');
     try {
         return await axios.get(url, {
@@ -30,6 +32,7 @@ async function makeGetRequest(url, username, password) {
 
 }
 async function makePutRequest(url, username, password, data) {
+    // Create auth header
     const authHeader = 'Basic ' + Buffer.from(username + ':' + password).toString('base64');
     try {
         return await axios.put(url, data, {
@@ -42,6 +45,7 @@ async function makePutRequest(url, username, password, data) {
     }
 }
 
+// Define test cases
 describe('User APIs', () => {
 
     it('get user details', async () => {
@@ -63,6 +67,8 @@ describe('User APIs', () => {
     });
 
     it('updates user details', async () => {
+
+        // Create new user
         const userData = {
             username: Math.random().toString(36).substring(7)+'@gmail.com',
             password: '123456',
@@ -71,6 +77,8 @@ describe('User APIs', () => {
         };
 
         await makePostRequest('http://127.0.0.1:3000/v1/user', userData);
+
+        // Update details
         const updatedData = {
             firstname: 'Updated',
             lastname: 'Updated',
@@ -78,8 +86,14 @@ describe('User APIs', () => {
         };
 
         const re = await makePutRequest('http://127.0.0.1:3000/v1/user/self', userData.username, userData.password, updatedData);
+
+        // Assert update status
         assert.strictEqual(re.status, 204);
+
+        // Fetch user
         const res = await makeGetRequest('http://127.0.0.1:3000/v1/user/self', userData.username, updatedData.password);
+
+        // Assert updated details
         assert.strictEqual(res.data.userinfo.firstname,updatedData.firstname);
         assert.strictEqual(res.data.userinfo.lastname,updatedData.lastname);
     });
