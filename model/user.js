@@ -46,7 +46,7 @@ export const userModel = (sequelize) => {
         },
     }, {
         defaultScope: {
-            attributes: {  },
+            attributes: {  }, 
         },
     });
 

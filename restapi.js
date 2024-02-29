@@ -1,7 +1,7 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
 import { User } from './database.js';
-
+// Middleware to authenticate encoded credentials
 export const authenticate = async (req, res, next) => {
     try {
         const authHeader = req.headers['authorization'];
@@ -9,6 +9,7 @@ export const authenticate = async (req, res, next) => {
             console.log('Missing or invalid authorization header');
             return res.sendStatus(401);
         }
+        // Decode the encoded credentials
         const credentials = Buffer.from(authHeader.split(' ')[1], 'base64').toString('ascii');
         const [username, password] = credentials.split(':');
           console.log("Received request : username , password:", username, password);
@@ -28,7 +29,7 @@ export const authenticate = async (req, res, next) => {
         next();
     } catch (error) {
         console.error('Error during authentication:', error);
-        return res.sendStatus(500); 
+        return res.sendStatus(500); // Send a 500 status response for any internal server errors
     }
 };
 
@@ -43,6 +44,7 @@ export const implementRestAPI = (app) => {
         }
     });
 
+    // Create user endpoint
     app.post('/v1/user', async (req, res) => {
         try {
             const { username, password, firstname, lastname } = req.body;
@@ -63,6 +65,7 @@ export const implementRestAPI = (app) => {
         }
     });
 
+    // Get user details for the authenticated user
     app.get('/v1/user/self', authenticate, async (req, res) => {
         try {
             const user = req.user;
@@ -77,6 +80,7 @@ export const implementRestAPI = (app) => {
         }
     });
 
+    // Update user details for the authenticated user
     app.put('/v1/user/self', authenticate, async (req, res) => {
         try {
             const { password, firstname, lastname, ...extraFields } = req.body;
