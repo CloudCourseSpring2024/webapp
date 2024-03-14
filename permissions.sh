@@ -21,7 +21,6 @@ sudo unzip /opt/application.zip -d /opt/csye6225
 
 # Change ownership and permissions of application directory to csye6225:csye6225
 sudo chown -R csye6225:csye6225 /opt/csye6225
-sudo chmod -R 755 /opt/csye6225
 
 # Switch to csye6225 user and execute commands as that user
 sudo -u csye6225 bash <<'EOF'
