@@ -43,6 +43,11 @@ build {
     destination = "/tmp/ops_agent_install.sh"
   }
 
+  provisioner "file" {
+    source      = "ops_config.sh"
+    destination = "/tmp/ops_config.sh"
+  }
+
   provisioner "shell" {
     script = "nodeinstallement.sh"
   }
@@ -59,4 +64,8 @@ build {
     script = "ops_agent_install.sh"
   }
 
+  provisioner "shell" {
+    script = "ops_config.sh"
+  }
+   
 }
