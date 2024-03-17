@@ -17,7 +17,8 @@ paid org.
 8. npm i uuid
 9. npm i dotenv
 10. npm install axios
-11. npm start
+11. npm install node-json-logger
+12. npm start
    
 ## Set up Database
 1. Ensure your MySQL server is running.

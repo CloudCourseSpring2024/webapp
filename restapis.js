@@ -1,15 +1,12 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
 import { User } from './database.js';
-import logger from './logger.js';
-
 // Middleware to authenticate encoded credentials
 export const authenticate = async (req, res, next) => {
     try {
         const authHeader = req.headers['authorization'];
         if (!authHeader || !authHeader.startsWith('Basic ')) {
             console.log('Missing or invalid authorization header');
-            logger.warn('Missing or invalid authorization header');
             return res.sendStatus(401);
         }
         // Decode the encoded credentials
@@ -25,7 +22,6 @@ export const authenticate = async (req, res, next) => {
        const passwordMatch = bcrypt.compareSync(password, user.password);
         if (!passwordMatch) {
             console.log('Password mismatch for user:', username);
-            logger.warn('Password mismatch for user')
             return res.sendStatus(401);
         }
         console.log('Authentication successful for user:', username);

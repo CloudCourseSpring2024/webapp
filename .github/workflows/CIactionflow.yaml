@@ -49,7 +49,7 @@ jobs:
           echo "DB_PASSWORD=root" >> $GITHUB_ENV
           echo "DB_NAME=cloudcourse" >> $GITHUB_ENV
       - name: Start server in background
-        run: npm start &
+        run: nodemon server.js &
       - name: Run tests
         run: npm test
 
