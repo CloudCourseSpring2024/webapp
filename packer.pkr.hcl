@@ -38,6 +38,11 @@ build {
     destination = "/tmp/nodeindex.sh"
   }
 
+  provisioner "file" {
+    source      = "ops_agent_install.sh"
+    destination = "/tmp/ops_agent_install.sh"
+  }
+
   provisioner "shell" {
     script = "nodeinstallement.sh"
   }
@@ -48,6 +53,10 @@ build {
 
   provisioner "shell" {
     script = "nodeindex.sh"
+  }
+
+  provisioner "shell" {
+    script = "ops_agent_install.sh"
   }
 
 }
