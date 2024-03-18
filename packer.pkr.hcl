@@ -57,15 +57,15 @@ build {
   }
 
   provisioner "shell" {
-    script = "nodeindex.sh"
-  }
-
-  provisioner "shell" {
     script = "ops_agent_install.sh"
   }
 
   provisioner "shell" {
     script = "ops_config.sh"
+  }
+  
+  provisioner "shell" {
+    script = "nodeindex.sh"
   }
    
 }
