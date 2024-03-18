@@ -1,5 +1,3 @@
-// logger.js
-
 import fs from 'fs';
 import Logger from 'node-json-logger';
 
@@ -15,7 +13,7 @@ try {
 }
 
 const options = {
-    level: 'info',
+    level: 'warn', // Set log level to capture warning messages and above
     // Override the stream where logs are written (default is process.stdout)
     stream: logStream
 };

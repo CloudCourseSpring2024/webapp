@@ -1,7 +1,7 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
 import { User } from './database.js';
-import logger from './logger.js';
+import logger from './logs.js';
 
 // Middleware to authenticate encoded credentials
 export const authenticate = async (req, res, next) => {
@@ -92,8 +92,8 @@ export const implementRestAPI = (app) => {
 
             if (Object.keys(extraFields).length > 0) {
                 console.log("cant update these field", extraFields);
-                logger.warn('pw mismatch')
-                return res.status(400).end();
+                logger.warn('password mismatch')
+                return res.status(400).json({ message: 'password mismatch' });
             }
             const user = req.user;
             if (password) {
