@@ -1,10 +1,9 @@
 // logger.js
 
 import fs from 'fs';
-import path from 'path';
 import Logger from 'node-json-logger';
 
-const logFilePath = 'D:\\var\\log\\google-cloud-ops-agent\\myapp.log';
+const logFilePath = '/var/log/google-cloud-ops-agent/myapp.log';
 
 // Create a write stream with error handling
 let logStream;
