@@ -20,39 +20,38 @@ const options = {
 
 const logger = new Logger(options);
 
-function appendToLog(message) {
-    fs.appendFile(logFilePath, `${new Date().toISOString()} - ${message}\n`, (err) => {
-        if (err) {
-            console.error('Error appending to log file:', err);
-        } else {
-            console.log('Log entry appended successfully.');
-        }
-    });
+async function appendToLog(message) {
+    try {
+        await fs.promises.appendFile(logFilePath, `${new Date().toISOString()} - ${message}\n`);
+        console.log('Log entry appended successfully.');
+    } catch (err) {
+        console.error('Error appending to log file:', err);
+    }
 }
 
-export const info = (message) => {
+export const info = async (message) => {
     logger.info(message);
-    appendToLog(`INFO: ${message}`);
+    await appendToLog(`INFO: ${message}`);
 };
 
-export const warn = (message) => {
+export const warn = async (message) => {
     logger.warn(message);
-    appendToLog(`WARNING: ${message}`);
+    await appendToLog(`WARNING: ${message}`);
 };
 
-export const error = (message) => {
+export const error = async (message) => {
     logger.error(message);
-    appendToLog(`ERROR: ${message}`);
+    await appendToLog(`ERROR: ${message}`);
 };
 
-export const debug = (message) => {
+export const debug = async (message) => {
     logger.debug(message);
-    appendToLog(`DEBUG: ${message}`);
+    await appendToLog(`DEBUG: ${message}`);
 };
 
-export const fatal = (message) => {
+export const fatal = async (message) => {
     logger.fatal(message);
-    appendToLog(`FATAL: ${message}`);
+    await appendToLog(`FATAL: ${message}`);
 };
 
 export default logger;
