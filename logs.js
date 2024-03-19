@@ -13,45 +13,46 @@ try {
 }
 
 const options = {
-    level: 'warn', // Set log level to capture warning messages and above
+    level: 'info',
     // Override the stream where logs are written (default is process.stdout)
     stream: logStream
 };
 
 const logger = new Logger(options);
 
-async function appendToLog(message) {
-    try {
-        await fs.promises.appendFile(logFilePath, `${new Date().toISOString()} - ${message}\n`);
-        console.log('Log entry appended successfully.');
-    } catch (err) {
-        console.error('Error appending to log file:', err);
-    }
+function appendToLog(message) {
+    fs.appendFile(logFilePath, `${new Date().toISOString()} - ${message}\n`, (err) => {
+        if (err) {
+            console.error('Error appending to log file:', err);
+        } else {
+            console.log('Log entry appended successfully.');
+        }
+    });
 }
 
-export const info = async (message) => {
+export const info = (message) => {
     logger.info(message);
-    await appendToLog(`INFO: ${message}`);
+    appendToLog(`INFO: ${message}`);
 };
 
-export const warn = async (message) => {
+export const warn = (message) => {
     logger.warn(message);
-    await appendToLog(`WARNING: ${message}`);
+    appendToLog(`WARNING: ${message}`);
 };
 
-export const error = async (message) => {
+export const error = (message) => {
     logger.error(message);
-    await appendToLog(`ERROR: ${message}`);
+    appendToLog(`ERROR: ${message}`);
 };
 
-export const debug = async (message) => {
+export const debug = (message) => {
     logger.debug(message);
-    await appendToLog(`DEBUG: ${message}`);
+    appendToLog(`DEBUG: ${message}`);
 };
 
-export const fatal = async (message) => {
+export const fatal = (message) => {
     logger.fatal(message);
-    await appendToLog(`FATAL: ${message}`);
+    appendToLog(`FATAL: ${message}`);
 };
 
 export default logger;
