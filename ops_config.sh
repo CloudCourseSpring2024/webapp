@@ -31,11 +31,16 @@ logging:
       type: parse_json
       time_key: time
       time_format: "%Y-%m-%dT%H:%M:%S.%L%Z"
+    change_severity:
+      type: modify_fields
+      fields:
+        severity:
+          copy_from: jsonPayload.severity
   service:
     pipelines:
       default_pipeline:
         receivers: [my-app-receiver]
-        processors: [my-app-processor]
+        processors: [my-app-processor, change_severity]
 EOF
 
 # Update the configuration file

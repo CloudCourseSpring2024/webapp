@@ -1,62 +1,37 @@
-import fs from 'fs';
+import fs from "fs";
 import Logger from 'node-json-logger';
 
 const logFilePath = '/var/log/google-cloud-ops-agent/myapp.log';
+const logStream = fs.createWriteStream(logFilePath, { flags: 'a' });
 
-// Create a write stream with error handling
-let logStream;
-try {
-    logStream = fs.createWriteStream(logFilePath, { flags: 'a' });
-    // Handle stream errors
-    logStream.on('error', (err) => {
-        console.error('Error writing to log file:', err);
-    });
-} catch (err) {
-    console.error('Error creating log stream:', err);
-    // Handle the error, such as logging to console or a fallback location
-}
+const logger = new Logger({ level: 'info', timestamp: true, stdout: logStream });
 
-const options = {
-    level: 'info',
-    // Override the stream where logs are written (default is process.stdout)
-    stream: logStream
-};
-
-const logger = new Logger(options);
-
-function appendToLog(message) {
-    fs.appendFile(logFilePath, `${new Date().toISOString()} - ${message}\n`, (err) => {
-        if (err) {
-            console.error('Error appending to log file:', err);
-        } else {
+function logMessage(severity, message) {
+    const logEntry = {severity: severity, message: message}; // Include severity in the log message JSON payload
+    fs.promises.appendFile(logFilePath, JSON.stringify(logEntry) + '\n')
+        .then(() => {
             console.log('Log entry appended successfully.');
-        }
-    });
+        })
+        .catch((err) => {
+            console.error('Error appending to log file:', err);
+        });
+    logger.info(logEntry); // Log the message with severity included in the JSON payload
 }
 
-export const info = (message) => {
-    logger.info(message);
-    appendToLog(`INFO: ${message}`);
+export default {
+    info: function(message) {
+        logMessage('info', message);
+    },
+    warn: function(message) {
+        logMessage('warn', message);
+    },
+    error: function(message) {
+        logMessage('error', message);
+    },
+    debug: function(message) {
+        logMessage('debug', message);
+    },
+    fatal: function(message) {
+        logMessage('fatal', message);
+    }
 };
-
-export const warn = (message) => {
-    logger.warn(message);
-    appendToLog(`WARNING: ${message}`);
-};
-
-export const error = (message) => {
-    logger.error(message);
-    appendToLog(`ERROR: ${message}`);
-};
-
-export const debug = (message) => {
-    logger.debug(message);
-    appendToLog(`DEBUG: ${message}`);
-};
-
-export const fatal = (message) => {
-    logger.fatal(message);
-    appendToLog(`FATAL: ${message}`);
-};
-
-export default logger;
