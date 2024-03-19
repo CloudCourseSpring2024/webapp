@@ -7,6 +7,10 @@ const logFilePath = '/var/log/google-cloud-ops-agent/myapp.log';
 let logStream;
 try {
     logStream = fs.createWriteStream(logFilePath, { flags: 'a' });
+    // Handle stream errors
+    logStream.on('error', (err) => {
+        console.error('Error writing to log file:', err);
+    });
 } catch (err) {
     console.error('Error creating log stream:', err);
     // Handle the error, such as logging to console or a fallback location
