@@ -28,4 +28,4 @@ paid org.
 ## Postman
 1. Choose the appropriate HTTP method (e.g., GET, POST, PUT, DELETE)
 2. Enter the URL of the API endpoint to be tested in the URL bar.
-3. Click on the "Send" button to send the request to the API endpoint
+3. Click on the "Send" button to send the request to the API endpoint.
