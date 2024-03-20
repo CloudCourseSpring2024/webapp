@@ -21,8 +21,8 @@ paid org.
 12. npm start
    
 ## Set up Database
-1. Ensure your MySQL server is running.
-2. Create a new database named sql.
+1. Ensure your MySQL server is running
+2. Create a new database named sql
 3. To stop the database go to services and stop mysql83
 
 ## Postman
