@@ -1,15 +1,12 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
 import { User } from './database.js';
-import logger from './logs.js';
-
 // Middleware to authenticate encoded credentials
 export const authenticate = async (req, res, next) => {
     try {
         const authHeader = req.headers['authorization'];
         if (!authHeader || !authHeader.startsWith('Basic ')) {
             console.log('Missing or invalid authorization header');
-            logger.warn('Missing or invalid authorization header');
             return res.sendStatus(401);
         }
         // Decode the encoded credentials
@@ -25,7 +22,6 @@ export const authenticate = async (req, res, next) => {
        const passwordMatch = bcrypt.compareSync(password, user.password);
         if (!passwordMatch) {
             console.log('Password mismatch for user:', username);
-            logger.warn('Password mismatch for user')
             return res.sendStatus(401);
         }
         console.log('Authentication successful for user:', username);
@@ -42,7 +38,6 @@ export const implementRestAPI = (app) => {
 
     app.use((req, res, next) => {
         if (['POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'].includes(req.method) && req.path === '/healthz') {
-            logger.info("method not found");
             res.status(405).end();
         } else {
             next();
@@ -56,7 +51,6 @@ export const implementRestAPI = (app) => {
             console.log('Received user data:', { username, password, firstname, lastname });
             const existingUser = await User.findOne({ where: { username } });
             if (existingUser) {
-                logger.debug('user already exists');
                 return res.status(400).json({ message: 'Username already exists' });
             }
             const hashedPassword = await bcrypt.hashSync(password, 10);
@@ -79,7 +73,6 @@ export const implementRestAPI = (app) => {
             delete userinfo.password;
             delete userinfo.createdAt;
             delete userinfo.updatedAt;
-            logger.info("user info displayed");
             return res.status(200).json({ userinfo });
         } catch (error) {
             console.error('Error fetching user:', error);
@@ -94,8 +87,7 @@ export const implementRestAPI = (app) => {
 
             if (Object.keys(extraFields).length > 0) {
                 console.log("cant update these field", extraFields);
-                logger.error('password mismatch')
-                return res.status(400).json({ message: 'password mismatch' });
+                return res.status(400).end();
             }
             const user = req.user;
             if (password) {
