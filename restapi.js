@@ -42,6 +42,7 @@ export const implementRestAPI = (app) => {
 
     app.use((req, res, next) => {
         if (['POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'].includes(req.method) && req.path === '/healthz') {
+            logger.info("method not found");
             res.status(405).end();
         } else {
             next();
@@ -55,7 +56,7 @@ export const implementRestAPI = (app) => {
             console.log('Received user data:', { username, password, firstname, lastname });
             const existingUser = await User.findOne({ where: { username } });
             if (existingUser) {
-                logger.warn('user already exists');
+                logger.debug('user already exists');
                 return res.status(400).json({ message: 'Username already exists' });
             }
             const hashedPassword = await bcrypt.hashSync(password, 10);
@@ -78,6 +79,7 @@ export const implementRestAPI = (app) => {
             delete userinfo.password;
             delete userinfo.createdAt;
             delete userinfo.updatedAt;
+            logger.info("user info displayed");
             return res.status(200).json({ userinfo });
         } catch (error) {
             console.error('Error fetching user:', error);
@@ -92,7 +94,7 @@ export const implementRestAPI = (app) => {
 
             if (Object.keys(extraFields).length > 0) {
                 console.log("cant update these field", extraFields);
-                logger.warn('password mismatch')
+                logger.error('password mismatch')
                 return res.status(400).json({ message: 'password mismatch' });
             }
             const user = req.user;
