@@ -17,7 +17,8 @@ paid org.
 8. npm i uuid
 9. npm i dotenv
 10. npm install axios
-11. npm start
+11. npm install node-json-logger
+12. npm start
    
 ## Set up Database
 1. Ensure your MySQL server is running.
@@ -27,4 +28,4 @@ paid org.
 ## Postman
 1. Choose the appropriate HTTP method (e.g., GET, POST, PUT, DELETE)
 2. Enter the URL of the API endpoint to be tested in the URL bar.
-3. Click on the "Send" button to send the request to the API endpoint
+3. Click on the "Send" button to send the request to the API endpoint.
