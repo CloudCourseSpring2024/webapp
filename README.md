@@ -23,7 +23,7 @@ paid org.
 ## Set up Database
 1. Ensure your MySQL server is running.
 2. Create a new database named sql.
-3. To stop the database go to services and stop mysql83.
+3. To stop the database go to services and stop mysql83
 
 ## Postman
 1. Choose the appropriate HTTP method (e.g., GET, POST, PUT, DELETE)
