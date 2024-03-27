@@ -3,6 +3,21 @@ import bcrypt from 'bcrypt';
 import { User } from './database.js';
 import logger from './logs.js';
 import { verify_email } from "./database.js";
+import { PubSub } from '@google-cloud/pubsub';
+
+const pubsub = new PubSub(); 
+const topicName = 'verify_email';
+async function publishMessageToPubSub(message) {
+    try {
+        const dataBuffer = Buffer.from(JSON.stringify(message));
+        await pubsub.topic(topicName).publish(dataBuffer);
+        logger.info('Message published to Pub/Sub topic successfully');
+    } catch (error) {
+        logger.error('Error publishing message to Pub/Sub topic:', error);
+        throw error;
+    }
+}
+
 const verificationusermodel = (req, res, next) => {
     try {
         const { id } = req.user; // ID from authenticated user
@@ -77,6 +92,7 @@ export const implementRestAPI = (app) => {
             }
             const hashedPassword = await bcrypt.hashSync(password, 10);
             const user = await User.create({ username, password: hashedPassword, firstname, lastname });
+            await publishMessageToPubSub(user);
             let userinfo = user.toJSON();
             delete userinfo.createdAt;
             delete userinfo.updatedAt;

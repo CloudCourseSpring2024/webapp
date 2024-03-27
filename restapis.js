@@ -1,20 +1,6 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
 import { User } from './database.js';
-import { PubSub } from '@google-cloud/pubsub';
-
-const pubsub = new PubSub(); 
-const topicName = 'verify_email';
-async function publishMessageToPubSub(message) {
-    try {
-        const dataBuffer = Buffer.from(JSON.stringify(message));
-        await pubsub.topic(topicName).publish(dataBuffer);
-        logger.info('Message published to Pub/Sub topic successfully');
-    } catch (error) {
-        logger.error('Error publishing message to Pub/Sub topic:', error);
-        throw error;
-    }
-}
 
 export const authenticate = async (req, res, next) => {
     try {
@@ -52,7 +38,6 @@ export const implementRestAPI = (app) => {
 
     app.use((req, res, next) => {
         if (['POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'].includes(req.method) && req.path === '/healthz') {
-            logger.info("method not found");
             res.status(405).end();
         } else {
             next();
@@ -66,12 +51,10 @@ export const implementRestAPI = (app) => {
             console.log('Received user data:', { username, password, firstname, lastname });
             const existingUser = await User.findOne({ where: { username } });
             if (existingUser) {
-                logger.warn('user already exists');
                 return res.status(400).json({ message: 'Username already exists' });
             }
             const hashedPassword = await bcrypt.hashSync(password, 10);
             const user = await User.create({ username, password: hashedPassword, firstname, lastname });
-            await publishMessageToPubSub(user);
             let userinfo = user.toJSON();
             delete userinfo.createdAt;
             delete userinfo.updatedAt;
@@ -104,7 +87,6 @@ export const implementRestAPI = (app) => {
 
             if (Object.keys(extraFields).length > 0) {
                 console.log("cant update these field", extraFields);
-                logger.warn('pw mismatch')
                 return res.status(400).end();
             }
             const user = req.user;
