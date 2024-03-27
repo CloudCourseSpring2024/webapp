@@ -111,4 +111,33 @@ export const implementRestAPI = (app) => {
             return res.status(400).end();
         }
     });
+    app.get('/verify/:id', async (req, res) => {
+        try {
+            const User = await userModelPromise;
+            const EmailVerification = await emailVerificationModelPromise;
+            const { id } = req.params;
+            const user = await User.findByPk(id);
+    
+            if (!user)
+                return res.status(404).send('User not found. Verification link is invalid.');
+
+            const verificationRecord = await EmailVerification.findOne({ where: { userId: id } });
+    
+            if (!verificationRecord)
+                return res.status(404).send('Verification record not found. Link may be invalid.');
+    
+            if (new Date() - new Date(verificationRecord.sentAt) > 120000)
+                return res.status(400).send('Verification link has expired.');
+    
+            if (verificationRecord.verified)
+                return res.status(200).send('User is already verified.');
+
+            await verificationRecord.update({ verified: true });
+            res.send('User is verified');
+        } catch (error) {
+            console.error("Error:", error);
+            res.status(500).send('Internal Server Error');
+        }
+    });
+    
 };
