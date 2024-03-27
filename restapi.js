@@ -2,7 +2,7 @@ import express from 'express';
 import bcrypt from 'bcrypt';
 import { User } from './database.js';
 import logger from './logs.js';
-
+import { verify_email } from "./database.js";
 // Middleware to authenticate encoded credentials
 export const authenticate = async (req, res, next) => {
     try {
@@ -113,12 +113,12 @@ export const implementRestAPI = (app) => {
     });
     app.get('/verify/:id', async (req, res) => {
         try {
-            const User = await userModelPromise;
-            const EmailVerification = await emailVerificationModelPromise;
+            const User_before = await User;
+            const EmailVerification = await verify_email;
             const { id } = req.params;
-            const user = await User.findByPk(id);
+            const userme = await User_before.findByPk(id);
     
-            if (!user)
+            if (!userme)
                 return res.status(404).send('User not found. Verification link is invalid.');
 
             const verificationRecord = await EmailVerification.findOne({ where: { userId: id } });
