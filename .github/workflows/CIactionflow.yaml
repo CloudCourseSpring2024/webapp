@@ -50,7 +50,7 @@ jobs:
           echo "DB_NAME=cloudcourse" >> $GITHUB_ENV
       - name: Start server in background
         run: npm start &
-      # - name: Run tests
-      #   run: npm test
+      - name: Run tests
+        run: npm test
 
       

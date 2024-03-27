@@ -1,7 +1,7 @@
 import axios from 'axios';
 import assert from 'assert';
 import { exec } from 'child_process';
-axios.defaults.timeout = 10000;
+axios.defaults.timeout = 5000;
 
 async function makePostRequest(url, data) {
     try {
