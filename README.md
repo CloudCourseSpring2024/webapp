@@ -1,3 +1,4 @@
+# test2
 # webapp
 paid org.
 ## Installations
@@ -18,12 +19,15 @@ paid org.
 9. npm i dotenv
 10. npm install axios
 11. npm install node-json-logger
-12. npm start
+12. npm i fs-extra
+13. npm i fs
+14. npm install @google-cloud/pubsub
+15. npm start
    
 ## Set up Database
-1. Ensure your MySQL server is running
-2. Create a new database named sql
-3. To stop the database go to services and stop mysql83
+1. Ensure your MySQL server is running.
+2. Create a new database named sql.
+3. To stop the database go to services and stop mysql83.
 
 ## Postman
 1. Choose the appropriate HTTP method (e.g., GET, POST, PUT, DELETE)
