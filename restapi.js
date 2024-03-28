@@ -2,7 +2,6 @@ import express from 'express';
 import bcrypt from 'bcrypt';
 import { User } from './database.js';
 import logger from './logs.js';
-import { verify_email } from "./database.js";
 import { PubSub } from '@google-cloud/pubsub';
 
 const pubsub = new PubSub(); 
@@ -18,23 +17,7 @@ async function publishMessageToPubSub(message) {
     }
 }
 
-const verificationusermodel = (req, res, next) => {
-    try {
-        const { id } = req.user; // ID from authenticated user
-        const EmailVerification = verify_email(); // Assuming this is synchronous
-        const verificationRecord = EmailVerification.findOne({ where: { userId: id } });
-
-        if (verificationRecord && verificationRecord.verified)
-            return next();
-        
-        // If the user is not verified, send a 403 Forbidden response
-        return res.status(403).json({ error: 'Your account has not been verified' });
-    } catch (error) {
-        return res.status(500).json({ error: 'Internal Server Error' });
-    }
-}
-// Middleware to authenticate encoded credentials
-
+//Middleware to authenticate encoded credentials
 export const authenticate = async (req, res, next) => {
     try {
         const authHeader = req.headers['authorization'];
@@ -104,7 +87,7 @@ export const implementRestAPI = (app) => {
     });
 
     // Get user details for the authenticated user
-    app.get('/v1/user/self',verificationusermodel, authenticate, async (req, res) => {
+    app.get('/v1/user/self', authenticate, async (req, res) => {
         try {
             const user = req.user;
             let userinfo = user.toJSON();
@@ -120,7 +103,7 @@ export const implementRestAPI = (app) => {
     });
 
     // Update user details for the authenticated user
-    app.put('/v1/user/self',verificationusermodel, authenticate, async (req, res) => {
+    app.put('/v1/user/self', authenticate, async (req, res) => {
         try {
             const { password, firstname, lastname, ...extraFields } = req.body;
 
@@ -143,33 +126,5 @@ export const implementRestAPI = (app) => {
             return res.status(400).end();
         }
     });
-    app.get('/verify/:id', async (req, res) => {
-        try {
-            const User_before = await User;
-            const EmailVerification = await verify_email;
-            const { id } = req.params;
-            const userme = await User_before.findByPk(id);
-    
-            if (!userme)
-                return res.status(404).send('User not found. Verification link is invalid.');
 
-            const verificationRecord = await EmailVerification.findOne({ where: { userId: id } });
-    
-            if (!verificationRecord)
-                return res.status(404).send('Verification record not found. Link may be invalid.');
-    
-            if (new Date() - new Date(verificationRecord.sentAt) > 120000)
-                return res.status(400).send('Verification link has expired.');
-    
-            if (verificationRecord.verified)
-                return res.status(200).send('User is already verified.');
-
-            await verificationRecord.update({ verified: true });
-            res.send('User is verified');
-        } catch (error) {
-            console.error("Error:", error);
-            res.status(500).send('Internal Server Error');
-        }
-    });
-    
 };
