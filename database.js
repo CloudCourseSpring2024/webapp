@@ -27,5 +27,5 @@ export const connection = async () => {
         console.error('Unable to connect to the database:', error);
     }
 };
-export { sequelize, User, verify_email };
+export { sequelize, User};
 
