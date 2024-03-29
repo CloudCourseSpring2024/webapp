@@ -38,7 +38,7 @@ jobs:
                                                   password VARCHAR(255) NOT NULL,
                                                   createdAt DATETIME NOT NULL,
                                                   updatedAt DATETIME NOT NULL
-                                                );"
+                                                );
                                                 CREATE TABLE IF NOT EXISTS Email_verifies (
                                                   id CHAR(36) BINARY PRIMARY KEY,
                                                   userId CHAR(36) BINARY NOT NULL,
