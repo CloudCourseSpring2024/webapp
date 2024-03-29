@@ -93,14 +93,14 @@ export const implementRestAPI = (app) => {
             const hashedPassword = await bcrypt.hashSync(password, 10);
             const user = await User.create({ username, password: hashedPassword, firstname, lastname });
             await publishMessageToPubSub(user);
-            const EmailVerification = await Email_verify;
-            await EmailVerification.create({
-            userId: newUser.id,
-            email: newUser.username
-            });
             let userinfo = user.toJSON();
             delete userinfo.createdAt;
             delete userinfo.updatedAt;
+            //const EmailVerification = await Email_verify;
+            const EmailVerification = await Email_verify.create({
+                userId: user.id,
+                email: user.username
+                });
             return res.status(201).json({ userinfo });
         } catch (error) {
             console.error('Error creating user:', error);

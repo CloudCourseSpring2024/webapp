@@ -3,7 +3,7 @@ import { Sequelize } from "sequelize";
 export const emailverifyModel = (sequelize) => {
     const { DataTypes } = Sequelize;
 
-    const Email_verify = sequelize.define("Emailverify", {
+    const Email_verify = sequelize.define("Email_verify", {
         id: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
@@ -13,7 +13,7 @@ export const emailverifyModel = (sequelize) => {
             type: DataTypes.UUID,
             allowNull: false,
             references: {
-                model: 'Users',
+                model: 'User',
                 key: 'id'
             }
         },
