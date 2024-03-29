@@ -39,7 +39,16 @@ jobs:
                                                   createdAt DATETIME NOT NULL,
                                                   updatedAt DATETIME NOT NULL
                                                 );"
-
+                                                CREATE TABLE IF NOT EXISTS Email_verifies (
+                                                  id CHAR(36) BINARY PRIMARY KEY,
+                                                  userId CHAR(36) BINARY NOT NULL,
+                                                  email VARCHAR(255) NOT NULL UNIQUE,
+                                                  sentAt DATETIME NOT NULL,
+                                                  verified TINYINT(1) DEFAULT false,
+                                                  createdAt DATETIME NOT NULL,
+                                                  updatedAt DATETIME NOT NULL,
+                                                  FOREIGN KEY (userId) REFERENCES users(id)
+                                                );"
       - name: Set up environment variables
         run: |
           echo "DB_DIALECT=mysql" >> $GITHUB_ENV

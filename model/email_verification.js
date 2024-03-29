@@ -13,7 +13,7 @@ export const emailverifyModel = (sequelize) => {
             type: DataTypes.UUID,
             allowNull: false,
             references: {
-                model: 'User',
+                model: 'Users',
                 key: 'id'
             }
         },
