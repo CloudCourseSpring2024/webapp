@@ -14,18 +14,18 @@ const sequelize = new Sequelize({
 });
 
 let User = null;
-let verify_email = null;
+let Email_verify = null;
 export const connection = async () => {
     try {
         await sequelize.authenticate();
         console.log('Connection has been established successfully.');
         User = userModel(sequelize);
-        verify_email = emailverifyModel(sequelize);
+        Email_verify = emailverifyModel(sequelize);
         await sequelize.sync();
         console.log('Table created successfully');
     } catch (error) {
         console.error('Unable to connect to the database:', error);
     }
 };
-export { sequelize, User, verify_email };
+export { sequelize, User, Email_verify };
 

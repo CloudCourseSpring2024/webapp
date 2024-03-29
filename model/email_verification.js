@@ -3,7 +3,7 @@ import { Sequelize } from "sequelize";
 export const emailverifyModel = (sequelize) => {
     const { DataTypes } = Sequelize;
 
-    const Emailverify = sequelize.define("Emailverify", {
+    const Email_verify = sequelize.define("Emailverify", {
         id: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
@@ -17,7 +17,7 @@ export const emailverifyModel = (sequelize) => {
                 key: 'id'
             }
         },
-        username: {
+        email: {
             type: DataTypes.STRING,
             allowNull: false,
             unique: true,
@@ -28,8 +28,8 @@ export const emailverifyModel = (sequelize) => {
         sentAt: {
             type: DataTypes.DATE,
             allowNull: false,
-            defaultValue: Sequelize.NOW
-        },
+            defaultValue: DataTypes.NOW
+        },        
         verified: {
             type: DataTypes.BOOLEAN,
             defaultValue: false
@@ -38,5 +38,5 @@ export const emailverifyModel = (sequelize) => {
         timestamps: true
     });
 
-    return Emailverify;
+    return Email_verify;
 };
