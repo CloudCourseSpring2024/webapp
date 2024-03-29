@@ -2,7 +2,7 @@ import express from 'express';
 import bcrypt from 'bcrypt';
 import { User } from './database.js';
 import logger from './logs.js';
-import { verify_email } from "./database.js";
+import { Email_verify } from "./database.js";
 import { PubSub } from '@google-cloud/pubsub';
 
 const pubsub = new PubSub(); 
@@ -21,7 +21,7 @@ async function publishMessageToPubSub(message) {
 const verificationusermodel = (req, res, next) => {
     try {
         const { id } = req.user; // ID from authenticated user
-        const EmailVerification = verify_email(); // Assuming this is synchronous
+        const EmailVerification = Email_verify(); // Assuming this is synchronous
         const verificationRecord = EmailVerification.findOne({ where: { userId: id } });
 
         if (verificationRecord && verificationRecord.verified)
@@ -93,6 +93,11 @@ export const implementRestAPI = (app) => {
             const hashedPassword = await bcrypt.hashSync(password, 10);
             const user = await User.create({ username, password: hashedPassword, firstname, lastname });
             await publishMessageToPubSub(user);
+            const EmailVerification = await Email_verify;
+            await EmailVerification.create({
+            userId: newUser.id,
+            email: newUser.username
+            });
             let userinfo = user.toJSON();
             delete userinfo.createdAt;
             delete userinfo.updatedAt;
@@ -146,7 +151,7 @@ export const implementRestAPI = (app) => {
     app.get('/verify/:id', async (req, res) => {
         try {
             const User_before = await User;
-            const EmailVerification = await verify_email;
+            const EmailVerification = await Email_verify;
             const { id } = req.params;
             const userme = await User_before.findByPk(id);
     
