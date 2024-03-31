@@ -18,11 +18,18 @@ async function publishMessageToPubSub(message) {
     }
 }
 
-const verificationusermodel = (req, res, next) => {
+const verificationusermodel = async (req, res, next) => {
     try {
-        const { id } = req.user; // ID from authenticated user
-        const EmailVerification = Email_verify(); // Assuming this is synchronous
-        const verificationRecord = EmailVerification.findOne({ where: { userId: id } });
+        const authHeader = req.headers['authorization'];
+        if (!authHeader || !authHeader.startsWith('Basic ')) {
+            console.log('Missing or invalid authorization header');
+            return res.sendStatus(401);
+        }
+        // Decode the encoded credentials
+        const credentials = Buffer.from(authHeader.split(' ')[1], 'base64').toString('ascii');
+        const [username, password] = credentials.split(':');
+          console.log("Received request : username , password:", username, password);
+        const verificationRecord = await Email_verify.findOne({ where: { email: username } });
 
         if (verificationRecord && verificationRecord.verified)
             return next();
@@ -96,7 +103,6 @@ export const implementRestAPI = (app) => {
             let userinfo = user.toJSON();
             delete userinfo.createdAt;
             delete userinfo.updatedAt;
-            //const EmailVerification = await Email_verify;
             const EmailVerification = await Email_verify.create({
                 userId: user.id,
                 email: user.username
