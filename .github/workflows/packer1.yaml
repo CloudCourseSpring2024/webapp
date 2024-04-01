@@ -1,7 +1,7 @@
 name: Integration Tests and Artifact Build
 
 on:
-  pull_request:
+  push:
     branches:
       - main
 
