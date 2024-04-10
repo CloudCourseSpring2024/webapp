@@ -6,7 +6,7 @@ on:
       - main
 env:
   PROJECT_ID: ${{ secrets.PROJECTID }}
-  GCP_SA_KEY: ${{ secrets.GCP_IAM_KEYS }}
+  GCP_SA_KEY: ${{ secrets.MYKEY }}
   GCP_REGION: 'us-central1'  
   MIG_NAME: 'webapp-manager'  
   SERVICE_ACCOUNT_EMAIL: ${{ secrets.GCP_SERVICE_ACCOUNT_EMAIL }}
@@ -104,22 +104,6 @@ jobs:
 
       - name: Build Google Cloud image with Packer
         run: packer build packer.pkr.hcl
-      
-      - name: List files in the root and /tmp directory
-        run: |
-           ls -lah
-           ls -lah /tmp
-           
-      - name: List files in the /tmp directory
-        run: |
-            ls -lah /tmp
-
-    # Build Machine Image with Packer
-      - name: Build Machine Image with Packer
-        run: |
-             packer init .
-             ls -lah /tmp    
-              packer build  -var 'project_id=${{ secrets.GCP_PROJECT_ID }}' packer.pkr.hcl
 
  #  CD 
     
