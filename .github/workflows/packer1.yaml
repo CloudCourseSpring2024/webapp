@@ -8,7 +8,7 @@ env:
   PROJECT_ID: ${{ secrets.PROJECTID }}
   GCP_SA_KEY: ${{ secrets.MYKEY }}
   GCP_REGION: 'us-central1'  
-  MIG_NAME: 'webapp-manager'  
+  MIG_NAME: 'instance-group-manager'  
   SERVICE_ACCOUNT_EMAIL: ${{ secrets.GCP_SERVICE_ACCOUNT_EMAIL }}
   NETWORK: 'vpc-tf' 
   SUBNETWORK: 'webapp'
