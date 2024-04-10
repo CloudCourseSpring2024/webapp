@@ -4,7 +4,14 @@ on:
   push:
     branches:
       - main
-
+env:
+  PROJECT_ID: ${{ secrets.PROJECTID }}
+  GCP_SA_KEY: ${{ secrets.GCP_IAM_KEYS }}
+  GCP_REGION: 'us-central1'  
+  MIG_NAME: 'webapp-manager'  
+  SERVICE_ACCOUNT_EMAIL: ${{ secrets.GCP_SERVICE_ACCOUNT_EMAIL }}
+  NETWORK: 'vpc-tf' 
+  SUBNETWORK: 'webapp'
 jobs:
   build:
     name: CI
@@ -97,3 +104,59 @@ jobs:
 
       - name: Build Google Cloud image with Packer
         run: packer build packer.pkr.hcl
+      
+      - name: List files in the root and /tmp directory
+        run: |
+           ls -lah
+           ls -lah /tmp
+           
+      - name: List files in the /tmp directory
+        run: |
+            ls -lah /tmp
+
+    # Build Machine Image with Packer
+      - name: Build Machine Image with Packer
+        run: |
+             packer init .
+             ls -lah /tmp    
+              packer build  -var 'project_id=${{ secrets.GCP_PROJECT_ID }}' packer.pkr.hcl
+
+ #  CD 
+    
+      - name: Get the latest image name
+        id: get-latest-image
+        run: |
+          IMAGE_NAME=$(gcloud compute images list --filter="name:custom-image*" --format="get(name)" --sort-by="~creationTimestamp" --limit=1)
+          echo "Latest image name is $IMAGE_NAME"
+          echo "::set-output name=image_name::$IMAGE_NAME"
+
+    # Create a new instance template with the new image and startup script
+      - name: Create a new instance template with startup script
+        run: |
+          gcloud compute instance-templates create "${{ env.MIG_NAME }}-template-${{ steps.get-latest-image.outputs.image_name  }}" \
+            --machine-type=e2-medium \
+            --image="${{ steps.get-latest-image.outputs.image_name }}" \
+            --image-project=${{ env.PROJECT_ID }} \
+            --region=${{ env.GCP_REGION }} \
+            --network="projects/${{ env.PROJECT_ID }}/global/networks/${{ env.NETWORK }}" \
+            --subnet="projects/${{ env.PROJECT_ID }}/regions/${{ env.GCP_REGION }}/subnetworks/${{ env.SUBNETWORK }}" \
+            --metadata=DB_HOST="${{ secrets.DB_HOST }}",DB_NAME="${{ secrets.DB_NAME }}",DB_PASSWORD="${{ secrets.DB_PASSWORD }}",DB_USER="${{ secrets.DB_USER }}",PORT="${{ secrets.PORT }}" \
+            --service-account='${{ secrets.GCP_SERVICE_ACCOUNT_EMAIL }}' \
+            --scopes='https://www.googleapis.com/auth/cloud-platform'
+
+
+      # Update managed instance group with the new template
+      - name: Update managed instance group
+        run: |
+          gcloud compute instance-groups managed set-instance-template ${{ env.MIG_NAME }} \
+            --template="${{ env.MIG_NAME }}-template-${{ steps.get-latest-image.outputs.image_name }}" \
+            --region=${{ env.GCP_REGION }}
+
+      # Start a basic rolling update
+      - name: Start a basic rolling update
+        run: |
+          gcloud compute instance-groups managed rolling-action start-update ${{ env.MIG_NAME }} \
+            --version template="${{ env.MIG_NAME }}-template-${{ steps.get-latest-image.outputs.image_name }}" \
+            --region=${{ env.GCP_REGION }} \
+            --max-surge=3 \
+            --max-unavailable=0
