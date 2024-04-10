@@ -7,7 +7,8 @@ const logStream = fs.createWriteStream(logFilePath, { flags: 'a' });
 const logger = new Logger({ level: 'info', timestamp: true, stdout: logStream });
 
 function logMessage(severity, message) {
-    const logEntry = {severity: severity, message: message}; // Include severity in the log message JSON payload
+    const timestamp = new Date().toISOString();
+    const logEntry = {severity: severity, timestamp: timestamp, message: message}; // Include severity in the log message JSON payload
     fs.promises.appendFile(logFilePath, JSON.stringify(logEntry) + '\n')
         .then(() => {
             console.log('Log entry appended successfully.');
