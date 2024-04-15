@@ -134,7 +134,6 @@ jobs:
           gcloud compute instance-groups managed set-instance-template ${{ env.MIG_NAME }} \
             --template="${{ env.MIG_NAME }}-template-${{ steps.get-latest-image.outputs.image_name }}" \
             --region=${{ env.GCP_REGION }}
-
       # Start a basic rolling update
       - name: Start a basic rolling update
         run: |
