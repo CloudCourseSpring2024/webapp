@@ -126,8 +126,7 @@ jobs:
           --service-account='${{ secrets.GCP_SERVICE_ACCOUNT_EMAIL }}' \
           --scopes='https://www.googleapis.com/auth/cloud-platform' \
           --tags='webapp-lb-target,application-instance' \
-          --create-disk="auto-delete=yes,boot=yes,device-name=persistent-disk-0,image=projects/${{ secrets.PROJECT_ID }}/global/images/${{ steps.get-latest-image.outputs.image_name }},kms-key=projects/${{ env.PROJECT_ID }}/locations/${{ env.GCP_REGION }}/keyRings/${{ secrets.GCP_KEY_RING }}/cryptoKeys/${{ secrets.GCP_VM_CRYPTO_KEY }},mode=rw,size=20,type=pd-balanced"
-
+           --create-disk="auto-delete=yes,boot=yes,device-name=persistent-disk-0,image=projects/${{ secrets.PROJECT_ID }}/global/images/${{ steps.get-latest-image.outputs.image_name }},kms-key=projects/${{ secrets.PROJECT_ID }}/locations/${{ env.GCP_REGION}}/keyRings/${{ secrets.GCP_KEY_RING }}/cryptoKeys/${{ secrets.GCP_VM_CRYPTO_KEY }},mode=rw,size=20,type=pd-balanced"
       # Update managed instance group with the new template
       - name: Update managed instance group
         run: |
@@ -136,7 +135,7 @@ jobs:
             --region=${{ env.GCP_REGION }}
       # Start a basic rolling update
 
-      
+
       - name: Start a basic rolling update
         run: |
           gcloud compute instance-groups managed rolling-action start-update ${{ env.MIG_NAME }} \
