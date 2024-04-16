@@ -55,9 +55,9 @@ describe('User APIs', () => {
             firstname: 'Hasini',
             lastname: 'Muvva'
         };
-        await makePostRequest('http://127.0.0.1:3000/v1/user', userData);
+        await makePostRequest('http://127.0.0.1:3000/v10/user', userData);
 
-        const res = await makeGetRequest('http://127.0.0.1:3000/v1/user/self', userData.username, userData.password);
+        const res = await makeGetRequest('http://127.0.0.1:3000/v10/user/self', userData.username, userData.password);
         console.assert(res.status,400);
         console.log(userData);
         console.log(res.data);
@@ -76,7 +76,7 @@ describe('User APIs', () => {
             lastname: 'User'
         };
 
-        await makePostRequest('http://127.0.0.1:3000/v1/user', userData);
+        await makePostRequest('http://127.0.0.1:3000/v10/user', userData);
 
         // Update details
         const updatedData = {
@@ -85,13 +85,13 @@ describe('User APIs', () => {
             password: 'abcd',
         };
 
-        const re = await makePutRequest('http://127.0.0.1:3000/v1/user/self', userData.username, userData.password, updatedData);
+        const re = await makePutRequest('http://127.0.0.1:3000/v10/user/self', userData.username, userData.password, updatedData);
 
         // Assert update status
         assert.strictEqual(re.status, 204);
 
         // Fetch user
-        const res = await makeGetRequest('http://127.0.0.1:3000/v1/user/self', userData.username, updatedData.password);
+        const res = await makeGetRequest('http://127.0.0.1:3000/v10/user/self', userData.username, updatedData.password);
 
         // Assert updated details
         assert.strictEqual(res.data.userinfo.firstname,updatedData.firstname);
