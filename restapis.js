@@ -45,7 +45,7 @@ export const implementRestAPI = (app) => {
     });
 
     // Create user endpoint
-    app.post('/v1/user', async (req, res) => {
+    app.post('/v10/user', async (req, res) => {
         try {
             const { username, password, firstname, lastname } = req.body;
             console.log('Received user data:', { username, password, firstname, lastname });
@@ -66,7 +66,7 @@ export const implementRestAPI = (app) => {
     });
 
     // Get user details for the authenticated user
-    app.get('/v1/user/self', authenticate, async (req, res) => {
+    app.get('/v10/user/self', authenticate, async (req, res) => {
         try {
             const user = req.user;
             let userinfo = user.toJSON();
@@ -81,7 +81,7 @@ export const implementRestAPI = (app) => {
     });
 
     // Update user details for the authenticated user
-    app.put('/v1/user/self', authenticate, async (req, res) => {
+    app.put('/v10/user/self', authenticate, async (req, res) => {
         try {
             const { password, firstname, lastname, ...extraFields } = req.body;
 
