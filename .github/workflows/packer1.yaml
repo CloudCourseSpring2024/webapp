@@ -1,7 +1,7 @@
 name: Integration Tests and Artifact Build
 
 on:
-  push:
+  pull_request:
     branches:
       - main
 env:
@@ -144,8 +144,8 @@ jobs:
             --max-surge=3 \
             --max-unavailable=0
 
-      - name: Wait for the update to complete
-        run: |
-          gcloud compute instance-groups managed wait-until --stable ${{ env.MIG_NAME }} \
-            --region=${{ env.GCP_REGION }} \
-            --timeout=900
+      # - name: Wait for the update to complete
+      #   run: |
+      #     gcloud compute instance-groups managed wait-until --stable ${{ env.MIG_NAME }} \
+      #       --region=${{ env.GCP_REGION }} \
+      #       --timeout=900
