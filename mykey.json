@@ -1,13 +1,1 @@
-{
-  "type": "service_account",
-  "project_id": "electric-clone-412119",
-  "private_key_id": "e6899e45672f6141c12232458cb69b033293c9b9",
-  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDmxfuHDwTUG3TZ\n82JHUqtMr8Gi4uZKLNnKx87YIPgG/R0uJQY2VslxGZL23yP/gDMNDxdeqQe2OmO7\nV74r1aY4cg//KI2tL4tr828N4p8ixg9SHgLtrl7KZ9X5otb4iKfzrHiMnLDFAFGb\n/HXs1L+FiEX+anGH2ODM5tY4wHB2Ww8DJSB2Rfs5Td0YHZOzuEToWvpQc1+IFUGD\n1Vny4Ki5/sT5+vr471K4ydc3lAVSxSHtiaCC1Ay1Q+Hc3KeISsT4mriIiXEUydB5\nGTuATKKLgyxGxJoBVLp0lO4YQrG2SYbo1JEL6KKX81q1b3K5xYrqsLLEFZGAB8qB\n244Lw7jtAgMBAAECggEAGiU6Hw4bjPBjZ8IEU3JRSAntlUfBsYutTSUgESqDDz+k\nC7NUJdnlTrQIC4IycOMUZZldG3NpFUM+Q15ohEzbXS/HEjCFBKcLU7qrzVXsk6L+\n313ZFRaZVLM48eR6GIRbCudybPPfryIfHN4YejGMVVOgInfqzupKZcyNXramxzHI\nxu3N0h72JqqSX3cntCRBxkjNN6c7cpcoixmlgxqlBIV26M3VChA4OoZJ83OUVzB2\nbvXKN3x+rA0T3NjZhpUtTIVzL3L7pF5pctIcTQu9oVaI11Hml8jHpY7ifqGaga/Q\nAQF+f8tu65nHcijLnSKxi3pyz7dfpNfeoC+Nq4ugfQKBgQD3iF4e25gFvNPYxugR\nXkjixFfhcRtFhXG9nYA+4sFfdJSstFcY7WUe0glCaqoa48DQRAEaw+qlGJt2ZpOE\nkcVY3VzPevpPrug1LIdA2jJ8hIYLjLyCKQSiKEsUDUMdq2jxyexD3tNVs15ZR2/6\nPrW3PslX5SfbHycW/JJWBzLChwKBgQDuqtqzr68oAm8EWbT4CCLywfiQZHLaZ4A0\nfNt69IjI+Ozj0lHdbbl/JDV66pTDEU/odHa5w4HcivqwAdQa4VPP9ybjm+EDSVTf\njsiNwvV5mXsJJg95dp+e/goQve+2rtgcjpluv3Hz8C1UCpbWXfOif/HB4r/PQ59i\nL1Nt51ph6wKBgQDVAODVNuvDjDDUKp2KTJL1qDVjRtxL37/3he/UrXXvOTeyweDt\nD2NjuSPEplrIltHVpZ85s/tXpCwrH6uzeWjTxnDWDaIWLZGeKDofIWQuaC+dArc4\nXimhjIDGuX7Wqii9X5/S64z6A0aeFu4R7iKalAnYe9XnJhCSJDeclcclQwKBgHeZ\nBHkwm3xYI9uxPF9ibGjrzKxGucs6PGORAccOjRDwtHzBoyZr2p2cvnP2408Q+NMK\nsYgLMaMbvd2/PNOvgHlhZ4p9TXeBItfYTCXFwY8K2z3NZcm/KOPad57GHz6TRVai\nGr8FjovoGj7YA5gugm024iX/g5DQWSkxgAQ9/+u7AoGBAJyS/HofMls5FPZiBx31\nxnHwTUjgJLVM/v9vPrEsGot25HzKYRD8JiJV6ScBesoaeFE8CfBSKi0vHvpgVYs0\nmFDZGc73gEz2ugjzCwRBHIqhWalYlfB7KGrKUNSH+IE6GDbAIi5qV6fTszaIyJKH\nPgSBUZ7M33qza7xEPCtdSVxd\n-----END PRIVATE KEY-----\n",
-  "client_email": "networkstructures@electric-clone-412119.iam.gserviceaccount.com",
-  "client_id": "114742959716522418515",
-  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-  "token_uri": "https://oauth2.googleapis.com/token",
-  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/networkstructures%40electric-clone-412119.iam.gserviceaccount.com",
-  "universe_domain": "googleapis.com"
-}
+.
